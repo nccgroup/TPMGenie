@@ -1,0 +1,2 @@
+Before adding SPI support to the interposer, I need to run some timing tests. It may be that Arduino simply isn't fast enough to keep up with the timing constraints.
+

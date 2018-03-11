@@ -1,0 +1,1 @@
+TODO: LPC support may not be possible with an Arduino-based design.
