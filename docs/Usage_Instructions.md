@@ -103,7 +103,7 @@ The second column is the **register** that the host is accessing on the TPM peri
 - `DATA_FIFO` (`0x05`): The host can write to the TPM's data FIFO register to send a command to the TPM. Likewise, reading this register will retrieve the response payload.
 - `VIDDID` (`0x06`): This register returns the unique Vendor ID and Device ID associated with the TPM hardware.
 
-In general, TPM Genie will always pass through `ACCESS`, `STS`, `VIDDID` and `BURST` register values. TPM Genie will never modify read or write operations on these registers because it frankly doesn't need to (although obviously it could me made to do so). There's also some benefit from being as transparent as possible. TPM Genie doesn't need to be fully aware of the TPM protocol, and if it starts changing the `ACCESS` or `STS` register values, it may end up confusing the host's state machine.
+In general, TPM Genie will always pass through `ACCESS`, `STS`, `VIDDID` and `BURST` register values. TPM Genie will never modify read or write operations on these registers because it frankly doesn't need to (although obviously it could be made to do so). There's also some benefit from being as transparent as possible. TPM Genie doesn't need to be fully aware of the TPM protocol, and if it starts changing the `ACCESS` or `STS` register values, it may end up confusing the host's state machine.
 
 TPM Genie does, however, modify the `DATA_FIFO` values, for both read and write operations. More on that in the [TPM serial bus attack demonstrations](docs/Attack_Demonstrations.md) section.
 
@@ -145,9 +145,10 @@ Next, the host can begin writing the command packet to the TPM's `DATA_FIFO` reg
 
 All TPM command headers are 10-bytes in size.
 
-- The first two bytes are the tag (`00 C1`), but it's not very important to understand what this means just yet.
+- The first byte (`05`) is the register address for the `DATA_FIFO`.
+- The next two bytes are the tag (`00 C1`), and they indicate the type of authorization session in use. For more information on that, consult the whitepaper.
 - The next four bytes represents the length of the overall packet (`00 00 00 0E`). In this case, `14`.
-- The next four bytes is the command ordinal (`00 00 00 15`), in this case, the PCR Read operation.
+- The next four bytes is the command ordinal (`00 00 00 15`), in this case, corresponding to the PCR Read operation.
 
 Notice that there are 3 trailing bytes after the ordinal (`00 00 00`), this is the first three bytes of the command payload. Because we know the overall command size is `14`, there must be one byte missing. It is fairly common to see packets get fragmented like this.
 
@@ -206,7 +207,7 @@ By pressing the 'm' key in the TPM Genie console, you can cycle between the diff
 - **Alter Hardware RNG**: In this mode, the interposer will modify `TPM_ORD_GetRandom` response packets. This demonstrates that an interposer could impair cryptographic operations on the host by controlling the output of the hardware random number generator.
 - **Trigger Crash**: This mode is intended to demonstrate one of the many memory corruption vulnerabilities that are described in the research paper. For the sake of simplicity, the command `TPM_ORD_GetRandom` was selected once again. Here, the interposer will modify the “size” field in the response packet in order to trigger a memory corruption bug in the kernel’s response parser.
 
-Each of these modes is explained in the [TPM serial bus attack demonstrations](docs/Attack_Demonstrations.md) section.
+Each of these modes is explained in the [TPM serial bus attack demonstrations](Attack_Demonstrations.md) section.
 
 ## Line Breaks
 

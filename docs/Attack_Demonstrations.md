@@ -6,7 +6,7 @@ TPM Genie comes pre-configured to conduct a number of attacks against the Linux 
 
 ## Undermining the Hardware Random Number Generator
 
-To demonstrate attacks against the TPM hardware RNG, first ensure that the `tpm_rng` kernel module is loaded. 
+To demonstrate attacks against the TPM hardware RNG, first ensure that the `tpm_rng` kernel module is loaded (exec `utils/load_hw_rng.sh` on the Raspberry Pi).
 
 When the TPM is in default passthrough mode, the returned data appears to be suitably random:
 
