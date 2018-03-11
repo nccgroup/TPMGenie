@@ -83,9 +83,11 @@ PCR  3: 54 c5 28 f7 74 ce b1 f2 70 ba 53 49 fc ab c2 a1 bd 1f 10 d4
 
 Notice that this new PCR value (index 3) is identical to the first PCR value that was set prior to tampering with the measured file (index 1). TPM Genie has replaced the digest of the string “evil” with the digest of the string “hello world” as it was transmitted over the serial bus.
 
+This public version of TPM Genie replaces the submitted digest with 20 bytes of `0xAA`, although it could be configured to submit any digest you wish.
+
 ## Inducing Kernel Memory Corruption
 
-During my TPM Interposer research, I discovered a number of kernel vulnerabilities, whereby an interposer could trigger memory corruption by altering TPM response packets. The patches for these bugs are most likely going to land in kernel version `v4.16`.
+During my TPM Interposer research, I discovered a number of kernel vulnerabilities, whereby an interposer could trigger memory corruption by altering TPM response packets. The patches for these bugs are going to land in the Linux kernel `v4.16`.
 
 TPM Genie is able to trigger one such kernel memory corruption bug out-of-the-box. Simply switch interposer modes until you arrive at the `Trigger Kernel Crash` mode. You must also ensure that the `tpm_rng` kernel module is loaded on the victim, then execute the following command:
 
