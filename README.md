@@ -12,15 +12,15 @@ TPM Genie was tested extensively with the Infineon SLB9645 I2C TPM, which confor
 
 # Key Features
 
-This tool was  primarily developed to manipulate TPM response packets in order to trigger parsing bugs in the host-side TPM drivers. These bugs can be found in the Linux kernel, as well as a variety of bootloaders such as Tboot and Tianocore EDKII. Leveraging these vulnerabilities, an attacker could compromise a host machine after it had successfully booted up into a fully measured and attested state.
+This tool was  primarily developed to manipulate TPM response packets in order to trigger parsing bugs in the host-side TPM drivers. These bugs can be found in the Linux kernel, as well as a variety of bootloaders such as Tboot and Tianocore EDKII. Leveraging these vulnerabilities, an attacker may be able to compromise a host machine after it had successfully booted up into a fully measured and attested state.
 
 <img src="docs/pics/i2c_interposer_block_diag.png">
 
-TPM Genie is also able to man-in-the-middle PCR Read and Extend operations, yielding the ability to undermine most of the stated purposes of a TPM: measured boot, remote attestation, and sealed storage. Normally, attestation should fail if an attacker modifies any component of the measured boot process. However, the interposer makes it is possible to spoof these measurements by replacing the the payload associated with the PCR Extend ordinal.
+TPM Genie is also able to man-in-the-middle PCR Extend operations, yielding the ability to undermine most of the stated purposes of a TPM: measured boot, remote attestation, and sealed storage. Normally, attestation or unsealing should fail if an attacker modifies any component of the measured boot process. However, the interposer makes it is possible to spoof these measurements by replacing the the payload associated with the PCR Extend ordinal as it is transmitted across the bus.
 
 Additionally, TPM Genie can weaken the Linux hardware random number generator. On some systems, `/dev/hwrng` is tied into the Trusted Platform Module such that all reads on the character device will actually result in the TPM chip providing the random bytes. In this way, the interposer can subtly alter the platform's RNG which may impair cryptographic operations on the host.
 
-Finally, TPM Genie can be used to capture secrets and other forms of authentication data which are transmitted on the serial bus. This includes session data associated with the OIAP and OSAP commands, such as the authHandle and the even/odd nonces. The interposer can then recalculate and replace the HMAC which is appended to the end of some TPM packets. Normally, the HMAC is used to guarantee the integrity of the packet, however this proves to be no barrier for the interposer because all data that is used to generate the HMAC is sent in plaintext.
+Finally, TPM Genie can be used to simply sniff the bus to capture secrets, such as session data associated with the OIAP and OSAP commands. And with nominal additional engineering effort, TPM Genie should be able to spoof the Endorsement Key, gain control of the AuthData and recalculate the Authorization Session HMAC. (More info on that in my whitepaper. I promise I'll implement that soon).
 
 ## Further Information
 
