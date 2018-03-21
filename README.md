@@ -25,6 +25,7 @@ Finally, TPM Genie can be used to simply sniff the bus to capture secrets, such 
 ## Further Information
 
 - [TPM Genie Whitepaper](docs/NCC_Group_Jeremy_Boone_TPM_Genie_Whitepaper.pdf)
+- [CanSecWest Slides](docs/CanSecWest_2018_-_TPM_Genie_-_Jeremy_Boone.pdf)
 - [How to build TPM Genie](docs/Hardware_Build.md)
 - [How to use TPM Genie](docs/Usage_Instructions.md)
 - [TPM serial bus attack demonstrations](docs/Attack_Demonstrations.md)
