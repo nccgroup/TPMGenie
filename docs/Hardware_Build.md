@@ -46,7 +46,7 @@ Start by following the [Infineon Iridium TPM45](http://www.infineon.com/dgdl/Inf
 
 Start by installing the [Teensyduino](https://www.pjrc.com/teensy/td_download.html) IDE, which is necessary to compile the TPM Genie Arduino sketch and flash the Teensy microcontroller.
 
-Next, clone this Git repository and open i2c.ino in the Teensyduino IDE. Compile the sketch to ensure you have all the necessary dependencies. The improved I2C library named [i2c_t3](https://github.com/nox771/i2c_t3), is necessary because Ardunio’s default Wire library cannot simultaneously make use of two I2C buses.
+Next, clone this Git repository and open i2c.ino in the Teensyduino IDE. Compile the sketch to ensure you have all the necessary dependencies. The improved I2C library named [i2c_t3](https://github.com/nox771/i2c_t3), is necessary because Ardunio’s default Wire library cannot simultaneously make use of two I2C buses. We suggest using [v10.0](https://github.com/nox771/i2c_t3/releases/tag/v10.0) of this library because later versions [introduced a bug](https://github.com/nccgroup/TPMGenie/issues/4).
 
 You will need to change the Teensyduino IDE to optimize the compiled firmware for speed. This can be accomplished by selecting the menu option shown below. This speed optimization is necessary due to the tight timing constraints in the kernel: After issuing a command to the TPM, the kernel driver will wait only for a limited amount of time for the response data to become available.
 
